@@ -4,12 +4,10 @@ import sys
 import time
 import pygame as pg
 
-
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
 NUM_OF_BOMBS = 5  # 爆弾の個数
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
 
 def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     """
@@ -209,7 +207,6 @@ def main():
                     bird.change_img(6, screen)
                     pg.display.update()
 
-
         bombs = [bomb for bomb in bombs if bomb is not None]
 
         key_lst = pg.key.get_pressed()
@@ -222,7 +219,6 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
 
 if __name__ == "__main__":
     pg.init()
