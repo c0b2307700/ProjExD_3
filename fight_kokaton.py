@@ -145,25 +145,24 @@ class Score:
     スコアに関するクラス
     """
     def __init__(self):
+        self.score = 0
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)        
-        self.img = self.fonto.render("スコア: ", 0, (0, 0, 255))
-        self.img.blit(self.img, [100, HEIGHT-50])
-        self.score_count = 0  # 爆弾にぶつけた回数
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, (0, 0, 255))
 
-    # def update(self, screen):
-    #     """
-    #     スコアを表示するメソッド
-    #     """
-    #     fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-    #     img = fonto.render("スコア: ", 0, (0, 0, 255))
-    #     screen.blit(img, [100, HEIGHT-50])
+        self.rct = self.img.get_rect()
+        self.rct.center = 100, HEIGHT - 50
+        self.img.blit(self.img, self.rct)   
+        
 
     def update(self, screen: pg.Surface):
         """
         スコアを表示するメソッド
         """
-        self.img = __class__.img[(100, HEIGHT-50)]
-        screen.blit(self.img, self.rct)   
+        screen.blit(self.img, self.rct)
+
+    def ad_score(self, count: int):
+        self.score += count
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, (0, 0, 255))
 
 
 def main():
@@ -205,7 +204,8 @@ def main():
             if beam is not None:
                 if beam.rct.colliderect(bomb.rct):  # ビームとボムが衝突したら
                     beam, bombs[j] = None, None
-                    score_count += 1  # ぶつかった回数を+1する
+                    # score_count += 1  # ぶつかった回数を+1する
+                    instance.ad_score(1)
                     bird.change_img(6, screen)
                     pg.display.update()
 
@@ -218,6 +218,7 @@ def main():
             beam.update(screen)   
         for bomb in bombs:
             bomb.update(screen)
+        instance.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
